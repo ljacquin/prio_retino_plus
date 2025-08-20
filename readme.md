@@ -1,4 +1,4 @@
-[<img src="www/logo_prio_retino_plus_git.png"/>](https://health.moju-apps.fr/prio_retino/)
+[<img src="www/logo_prio_retino_plus.png" width="300"/>](https://health.moju-apps.fr/prio_retino/)
 
 # [Prio Retino+](https://health.moju-apps.fr/prio_retino/)
 
