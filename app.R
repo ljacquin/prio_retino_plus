@@ -271,21 +271,21 @@ ui <- secure_app(
     ),
     
     # global JS for capturing pasted image
-    tags$script(HTML("
-      document.addEventListener('paste', function(e) {
-        var items = (e.clipboardData || e.originalEvent.clipboardData).items;
-        for (var i = 0; i < items.length; i++) {
-          if (items[i].type.indexOf('image') !== -1) {
-            var blob = items[i].getAsFile();
-            var reader = new FileReader();
-            reader.onload = function(event){
-              Shiny.setInputValue('pasted_image', event.target.result, {priority: 'event'});
-            };
-            reader.readAsDataURL(blob);
-          }
-        }
-      });
-    "))
+    # tags$script(HTML("
+    #   document.addEventListener('paste', function(e) {
+    #     var items = (e.clipboardData || e.originalEvent.clipboardData).items;
+    #     for (var i = 0; i < items.length; i++) {
+    #       if (items[i].type.indexOf('image') !== -1) {
+    #         var blob = items[i].getAsFile();
+    #         var reader = new FileReader();
+    #         reader.onload = function(event){
+    #           Shiny.setInputValue('pasted_image', event.target.result, {priority: 'event'});
+    #         };
+    #         reader.readAsDataURL(blob);
+    #       }
+    #     }
+    #   });
+    # "))
   )
 )
 
@@ -336,17 +336,16 @@ server <- shinyServer(
     })
     
     # file input via CTRL+V (clipboard image)
-    observeEvent(input$pasted_image, {
-      non_analysis_state <- (list_out_prio_retino()$out_dr_prio_retino_txt == "")
-      if (non_analysis_state
-      ) {
-        tmpF <- tempfile(fileext = ".png")
-        base64_data <- sub("^data:image/.+;base64,", "", input$pasted_image)
-        writeBin(base64enc::base64decode(base64_data), tmpF)
-        rv$file1 <- list(datapath = tmpF, size = file.info(tmpF)$size)
-      }
-    })
-    
+    # observeEvent(input$pasted_image, {
+    #   non_analysis_state <- (list_out_prio_retino()$out_dr_prio_retino_txt == "")
+    #   if (non_analysis_state
+    #   ) {
+    #     tmpF <- tempfile(fileext = ".png")
+    #     base64_data <- sub("^data:image/.+;base64,", "", input$pasted_image)
+    #     writeBin(base64enc::base64decode(base64_data), tmpF)
+    #     rv$file1 <- list(datapath = tmpF, size = file.info(tmpF)$size)
+    #   }
+    # })
     
     # set language during non analysis state only
     observeEvent(input$selected_language, {
