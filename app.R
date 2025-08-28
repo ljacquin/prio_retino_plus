@@ -56,33 +56,35 @@ library(shiny.i18n)
 library(shinyWidgets)
 library(RSQLite)
 library(dipsaus)
-Sys.setenv("CUDA_VISIBLE_DEVICES" = "-1")  
+Sys.setenv("CUDA_VISIBLE_DEVICES" = "-1")
 # library(rstudioapi)
 # setwd(dirname(getActiveDocumentContext()$path))
 options(encoding = "UTF-8")
 source_python("img_resize_quality_functions.py")
 source_python("grad_cam_functions.py")
 # source custom function for concurrent writing in SQLite database
-source('dbWriteTable_.R')
+source("dbWriteTable_.R")
 
 # set dbname
-dbname_ = "../user_data/prio_suite_db"
+dbname_ <- "../user_data/prio_suite_db"
 
 # user interface parameters
 
 # set countries languages
 countries <- c(
-  "English", "Français",
+  "Français",
+  "English",
   "Português"
 )
 flags <- c(
-  "us.png", "french.png",
+  "french.png",
+  "us.png", 
   "portugal.png"
 )
 
 # file with translations
 i18n <- Translator$new(translation_json_path = "prio_retino_translation.json")
-i18n$set_translation_language("English")
+i18n$set_translation_language("Français")
 
 # create a connection to prio suite db and disconnect on exit
 db_connect <- dbConnect(SQLite(), dbname = dbname_)
@@ -104,7 +106,7 @@ credentials <- data.frame(
 # full access list for all functionalities
 full_access_list <- readLines("full_access_list")
 
-# prio retino+ models and parameters 
+# prio retino+ models and parameters
 
 # cnn model and parameters
 if (!exists("cnn_binary_classifier_0") && !exists("cnn_binary_classifier_1") && !exists("cnn_binary_classifier_2") &&
@@ -164,7 +166,7 @@ ui <- secure_app(
     # loading message
     div(
       id = "loading-content",
-      h2(i18n$t("Loading Prio Retino+..."))
+      h2(i18n$t("Chargement de l'application Prio Retino+..."))
     ),
     
     # language selection
@@ -173,7 +175,7 @@ ui <- secure_app(
       style = "float: right;", class = "chooselang",
       pickerInput(
         inputId = "selected_language",
-        label = i18n$t("Set Prio Retino+ language"),
+        label = i18n$t("Définir la langue de Prio Retino+"),
         choices = i18n$get_languages(),
         selected = i18n$get_key_translation(),
         choicesOpt = list(
@@ -197,16 +199,16 @@ ui <- secure_app(
           HTML('<center><img src="logo_moju_ai.png" width="180"></header>'),
           column(width = 1, offset = 10, style = "padding:6px;"),
           #
-          titlePanel(h5(p(strong(i18n$t("Do not refresh the page, press 'Reset' to clean up before each new analysis"))),
+          titlePanel(h5(p(strong(i18n$t("Ne pas rafraichir la page, appuyer sur 'Réinitialiser' pour nettoyer avant chaque nouvelle analyse"))),
                         style = "color:red", align = "left"
           )),
-          actionButton("reset", i18n$t("Reset")),
+          actionButton("reset", i18n$t("Réinitialiser")),
           titlePanel(h5(p(""), align = "left")),
           #
-          textInput("patient_id", i18n$t("Insert patient identifier"), value = ""),
+          textInput("patient_id", i18n$t("Insérer l'identifiant du patient"), value = ""),
           fancyFileInput(
             input = "file1",
-            label = i18n$t("Upload fundus image"),
+            label = i18n$t("Charger l'image du fond d'oeil"),
             accept = c(".png", ".jpeg", ".jpg")
           ),
           uiOutput("UIselectInput"),
@@ -243,34 +245,51 @@ ui <- secure_app(
       ),
       useShinyjs(),
       extendShinyjs(text = "shinyjs.winprint = function(){ window.print(); }", functions = c("winprint")),
-      actionButton("print", i18n$t("Print Prio Retino+ results to PDF")),
-      titlePanel(h6(p(strong(i18n$t("Remarks, definitions and recommendations :"))), style = "color:#0c7683", align = "left")),
-      titlePanel(h6(i18n$t("- Prio Retino+ results are given on an idicative basis, the diagnosis should be established by an ophthalmologist"),
+      actionButton("print", i18n$t("Imprimer ou sauvegarder les résultats de Prio Retino+ au format PDF")),
+      titlePanel(h6(p(strong(i18n$t("Remarques, définitions et recommandations :"))), style = "color:#0c7683", align = "left")),
+      titlePanel(h6(i18n$t("- Les résultats de Prio Retino+ sont donnés à titre indicatif, le diagnostic doit être établi par un ophtalmologue"),
                     style = "color:#0c7683", align = "left"
       )),
-      titlePanel(h6(i18n$t("- The analyzed data is deleted and not stored by Prio Retino+ after each reset"),
+      titlePanel(h6(i18n$t("- Les données analysées sont supprimées et ne sont pas stockées par Prio Retino+ après chaque réinitialisation"),
                     style = "color:#0c7683", align = "left"
       )),
-      titlePanel(h6(i18n$t("- ICDR: International Clinical Diabetic Retinopathy severity scale; AAO : American Academy of Ophthalmology"),
+      titlePanel(h6(i18n$t("- EIRD : Echelle Internationale de sévérité de la Rétinopathie Diabétique; AAO : Académie Américaine d'Ophtalmologie"),
                     style = "color:#0c7683", align = "left"
       )),
-      titlePanel(h6(i18n$t("- Non referable diabetic retinopathy (DR): mild or no visible signs of DR according to ICDR. AAO recommendations : repeat examination annually for non referable DR"),
+      titlePanel(h6(i18n$t("- Rétinopathie diabétique (RD) non référable : léger ou aucun signe visible de la RD selon l'EIRD. Recommandations de l'AAO : répéter l'examen annuellement pour la RD non référable"),
                     style = "color:#0c7683", align = "left"
       )),
-      titlePanel(h6(i18n$t("- Referable diabetic retinopathy (DR): moderate or superior signs of DR according to ICDR. AAO recommendations : repeat examination within 6 or 3 months for moderate or superior signs of DR respectively"),
+      titlePanel(h6(i18n$t("- Rétinopathie diabétique (RD) référable : signes modérés ou supérieurs de la RD selon l'EIRD. Recommandations de l'AAO : répéter l'examen respectivement tous les 6 ou 3 mois pour des signes modérés ou supérieurs de RD"),
                     style = "color:#0c7683", align = "left"
       )),
-      titlePanel(h6(i18n$t("- Non referable glaucoma: no visible sign or low-risk suspect for glaucoma. AAO recommendations : repeat examination annually"),
+      titlePanel(h6(i18n$t("- Glaucome non référable : aucun signe visible ou faible risque suspecté de glaucome. Recommandations de l'AAO : répéter l'examen chaque année"),
                     style = "color:#0c7683", align = "left"
       )),
-      titlePanel(h6(i18n$t("- Referable glaucoma: true glaucoma, pre-perimetric glaucoma or high-risk suspect. AAO recommendations : repeat examination every 1 to 2 months until disease stabilization"),
+      titlePanel(h6(i18n$t("- Glaucome référable : vrai glaucome, glaucome pré-périmétrique ou haut risque suspecté. Recommandations de l'AAO : répéter l'examen tous les 1 à 2 mois jusqu'à stabilisation de la maladie"),
                     style = "color:#0c7683", align = "left"
       ))
-    )
+    ),
+    
+    # global JS for capturing pasted image
+    tags$script(HTML("
+      document.addEventListener('paste', function(e) {
+        var items = (e.clipboardData || e.originalEvent.clipboardData).items;
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].type.indexOf('image') !== -1) {
+            var blob = items[i].getAsFile();
+            var reader = new FileReader();
+            reader.onload = function(event){
+              Shiny.setInputValue('pasted_image', event.target.result, {priority: 'event'});
+            };
+            reader.readAsDataURL(blob);
+          }
+        }
+      });
+    "))
   )
 )
 
-# server component 
+# server component
 server <- shinyServer(
   function(input, output, session) {
     options(shiny.maxRequestSize = 4 * 1024^2)
@@ -316,6 +335,19 @@ server <- shinyServer(
       }
     })
     
+    # file input via CTRL+V (clipboard image)
+    observeEvent(input$pasted_image, {
+      non_analysis_state <- (list_out_prio_retino()$out_dr_prio_retino_txt == "")
+      if (non_analysis_state
+      ) {
+        tmpF <- tempfile(fileext = ".png")
+        base64_data <- sub("^data:image/.+;base64,", "", input$pasted_image)
+        writeBin(base64enc::base64decode(base64_data), tmpF)
+        rv$file1 <- list(datapath = tmpF, size = file.info(tmpF)$size)
+      }
+    })
+    
+    
     # set language during non analysis state only
     observeEvent(input$selected_language, {
       non_analysis_state <- (list_out_prio_retino()$out_dr_prio_retino_txt == "")
@@ -331,17 +363,17 @@ server <- shinyServer(
       auth_ind <- as.character(reactiveValuesToList(result_auth))
       if (auth_ind %in% full_access_list) {
         selectInput("element_id",
-                    label = i18n$t("Display pre-diagnostic results for :"),
+                    label = i18n$t("Afficher les résultats de pré-diagnostic pour :"),
                     choices = i18n$t(c(
-                      "Diabetic retinopathy and/or maculopathy",
-                      "Glaucoma"
+                      "Rétinopathie et/ou maculopathie diabétique",
+                      "Glaucome"
                     ))
         )
       } else {
         selectInput("element_id",
-                    label = i18n$t("Display pre-diagnostic results for :"),
+                    label = i18n$t("Afficher les résultats de pré-diagnostic pour :"),
                     choices = i18n$t(
-                      "Diabetic retinopathy and/or maculopathy"
+                      "Rétinopathie et/ou maculopathie diabétique"
                     )
         )
       }
@@ -377,7 +409,6 @@ server <- shinyServer(
         list_out_prio_retino$pred_other_img_status <- pred_other_img_status
         
         if ((!is.null(unlist(rv$patient_id))) && (unlist(rv$patient_id) != "") && (!pred_other_img_status)) {
-          
           # create a connection to prio suite db and disconnect on exit
           db_connect <- dbConnect(SQLite(), dbname = dbname_)
           on.exit(DBI::dbDisconnect(db_connect))
@@ -426,7 +457,7 @@ server <- shinyServer(
           
           # make an output for original image
           out_orig_img <- image_scale(list_out_prio_retino$resized_cropped_target_image, "412x412!") %>%
-            image_annotate(i18n$t("Original fundus image"),
+            image_annotate(i18n$t("Fond d'oeil original"),
                            font = "monospace",
                            color = "white", size = 12
             )
@@ -445,8 +476,8 @@ server <- shinyServer(
             
             # make a txt output for no dr
             out_dr_txt <- paste0(
-              i18n$t("Prio Retino+ results : mild or no visible signs of diabetic retinopathy (i.e. non referable DR) detected with a probability of "),
-              (1 - trunc(100 * proba_dr_status) / 100), i18n$t(" for "), rv$patient_id, "."
+              i18n$t("Résultats de Prio Retino+ : léger ou aucun signe visible de rétinopathie diabétique (i.e. RD non référable) détecté avec une probabilité de "),
+              (1 - trunc(100 * proba_dr_status) / 100), i18n$t(" pour "), rv$patient_id, "."
             )
             dr_color <- "#49DC67"
             
@@ -455,15 +486,15 @@ server <- shinyServer(
             ifelse((proba_maculo <= 0.5), Maculo_status <- 0, Maculo_status <- 1)
             if (Maculo_status) {
               out_dr_txt <- paste0(
-                out_dr_txt, i18n$t("Warning: possible presence of maculopathy detected with a probability of "),
+                out_dr_txt, i18n$t("Attention : présence possible de maculopathie détectée avec une probabilité de "),
                 (trunc(100 * proba_maculo) / 100)
               )
               dr_color <- "#FF5050"
-              out_dr_img <- out_dr_img %>% image_annotate(i18n$t("Detected areas for maculopathy"),
+              out_dr_img <- out_dr_img %>% image_annotate(i18n$t("Zones détectées pour la maculopathie diabétique"),
                                                           font = "monospace", color = annotation_color_, size = 12
               )
             } else {
-              out_dr_img <- out_dr_img %>% image_annotate(i18n$t("No detected areas for diabetic retinopathy and/or maculopathy"),
+              out_dr_img <- out_dr_img %>% image_annotate(i18n$t("Aucune zone détectée pour la rétinopathie \n et/ou maculopathie diabétique"),
                                                           font = "monospace", color = annotation_color_, size = 12
               )
             }
@@ -476,21 +507,21 @@ server <- shinyServer(
             
             ifelse((pred_dr_level == 0),
                    dr_level <- paste0(
-                     i18n$t("potential signs of moderate DR detected with a probability of "),
+                     i18n$t("signes potentiels de RD modérée détectés avec une probabilité de "),
                      (1 - trunc(100 * proba_dr_level) / 100)
                    ),
                    dr_level <- paste0(
-                     i18n$t("potential signs of severe or superior DR detected with a probability of "),
+                     i18n$t("signes potentiels de RD sévère ou supérieure détectés avec une probabilité de "),
                      (trunc(100 * proba_dr_level) / 100)
                    )
             )
             out_dr_txt <- paste0(
-              i18n$t("Prio Retino+ results : referable diabetic retinopathy detected with a probability of "), (trunc(100 * proba_dr_status) / 100),
-              i18n$t(" for "), rv$patient_id, ".", i18n$t(" Disease severity:  "), dr_level, ". "
+              i18n$t("Résultats de Prio Retino+ : rétinopathie diabétique référable détectée avec une probabilité de "), (trunc(100 * proba_dr_status) / 100),
+              i18n$t(" pour "), rv$patient_id, ".", i18n$t(" Stade de la maladie :  "), dr_level, ". "
             )
             if (Maculo_status) {
               out_dr_txt <- paste0(
-                out_dr_txt, i18n$t("Warning: possible presence of maculopathy detected with a probability of "),
+                out_dr_txt, i18n$t("Attention : présence possible de maculopathie détectée avec une probabilité de "),
                 (trunc(100 * proba_maculo) / 100)
               )
             }
@@ -504,7 +535,7 @@ server <- shinyServer(
                 list_out_prio_retino$resized_transformed_target_image,
                 last_conv_layer_name
               ) / 255
-            ), "412x412!") %>% image_annotate(i18n$t("Detected areas for diabetic retinopathy and/or maculopathy"),
+            ), "412x412!") %>% image_annotate(i18n$t("Zones détectées pour la rétinopathie et/ou maculopathie diabétique"),
                                               font = "monospace", color = annotation_color_, size = 12
             )
           } # end else for pred_dr_status test
@@ -519,8 +550,8 @@ server <- shinyServer(
           ifelse((proba_glauco_status <= 0.5), glauco_status <- 0, glauco_status <- 1)
           if (glauco_status == 0) {
             out_glauco_txt <- paste0(
-              i18n$t("Prio Retino+ results : no visible sign or low-risk suspect for glaucoma (i.e. non referable glaucoma) detected with a probability of "),
-              (1 - trunc(100 * proba_glauco_status) / 100), i18n$t(" for "), rv$patient_id, "."
+              i18n$t("Résultats de Prio Retino+ : aucun signe visible ou faible risque suspecté de glaucome (i.e. glaucome non référable) détecté avec une probabilité de "),
+              (1 - trunc(100 * proba_glauco_status) / 100), i18n$t(" pour "), rv$patient_id, "."
             )
             glauco_color <- "#49DC67"
             # make an img output for no glauco
@@ -528,13 +559,13 @@ server <- shinyServer(
               image_array_resize(list_out_prio_retino$transformed_target_image,
                                  height = img_size_cnn, width = img_size_cnn
               ) / 255
-            ), "412x412!") %>% image_annotate(i18n$t("No detected areas for glaucoma"),
+            ), "412x412!") %>% image_annotate(i18n$t("Aucune zone détectée pour le glaucome"),
                                               font = "monospace", color = annotation_color_, size = 12
             )
           } else {
             out_glauco_txt <- paste0(
-              i18n$t("Prio Retino+ results : referable glaucoma (i.e. true glaucoma, pre-perimetric glaucoma or high-risk suspect) detected with a probability of "),
-              trunc(100 * proba_glauco_status) / 100, i18n$t(" for "), rv$patient_id, "."
+              i18n$t("Résultats de Prio Retino+ : glaucome référable (i.e. vrai glaucome, glaucome pré-périmétrique ou haut risque suspecté) détecté avec une probabilité de "),
+              trunc(100 * proba_glauco_status) / 100, i18n$t(" pour "), rv$patient_id, "."
             )
             glauco_color <- "#FF5050"
             # compute grad classification activation mapping for glauco status
@@ -545,7 +576,7 @@ server <- shinyServer(
                 list_out_prio_retino$resized_transformed_target_image,
                 last_conv_layer_name
               ) / 255
-            ), "412x412!") %>% image_annotate(i18n$t("Detected areas for glaucoma"),
+            ), "412x412!") %>% image_annotate(i18n$t("Zones détectées pour le glaucome"),
                                               font = "monospace", color = annotation_color_, size = 12
             )
           } # end glauco status computation
@@ -559,7 +590,7 @@ server <- shinyServer(
           if (!img_qual) {
             dr_color <- "#EE9F27"
             glauco_color <- "#EE9F27"
-            img_qual_warning <- i18n$t("Warning: low quality image detected, Prio Retino+ results might be unreliable. ")
+            img_qual_warning <- i18n$t("Attention : image de faible qualité détectée, les résultats de Prio Retino+ peuvent ne pas être fiables. ")
             out_dr_txt <- paste0(img_qual_warning, out_dr_txt)
             out_glauco_txt <- paste0(img_qual_warning, out_glauco_txt)
           }
@@ -568,11 +599,11 @@ server <- shinyServer(
           out_glauco_prio_retino_txt <- HTML(paste0("<div style='background-color:", glauco_color, "'>", out_glauco_txt, "</div>"))
         } else {
           if (!pred_other_img_status) {
-            out_dr_prio_retino_txt <- HTML(paste0("<font color='#0c7683'>", i18n$t("Please reset Prio Retino+ first, then follow these instructions : 1. Select your language, 2. Insert patient identifier and 3. Upload a fundus image."), "</font>"))
-            out_glauco_prio_retino_txt <- HTML(paste0("<font color='#0c7683'>", i18n$t("Please reset Prio Retino+ first, then follow these instructions : 1. Select your language, 2. Insert patient identifier and 3. Upload a fundus image."), "</font>"))
+            out_dr_prio_retino_txt <- HTML(paste0("<font color='#0c7683'>", i18n$t("Veuillez d'abord réinitialiser Prio Retino+, puis suivez ces instructions : 1. Sélectionnez votre langue, 2. Insérez l'identifiant du patient et 3. Chargez une image du fond d'oeil."), "</font>"))
+            out_glauco_prio_retino_txt <- HTML(paste0("<font color='#0c7683'>", i18n$t("Veuillez d'abord réinitialiser Prio Retino+, puis suivez ces instructions : 1. Sélectionnez votre langue, 2. Insérez l'identifiant du patient et 3. Chargez une image du fond d'oeil."), "</font>"))
           } else {
-            out_dr_prio_retino_txt <- HTML(paste0("<font color='#0c7683'>", paste0(i18n$t("Is the uploaded file a fundus image ? "), i18n$t("Please reset Prio Retino+ first, then follow these instructions : 1. Select your language, 2. Insert patient identifier and 3. Upload a fundus image.")), "</font>"))
-            out_glauco_prio_retino_txt <- HTML(paste0("<font color='#0c7683'>", paste0(i18n$t("Is the uploaded file a fundus image ? "), i18n$t("Please reset Prio Retino+ first, then follow these instructions : 1. Select your language, 2. Insert patient identifier and 3. Upload a fundus image.")), "</font>"))
+            out_dr_prio_retino_txt <- HTML(paste0("<font color='#0c7683'>", paste0(i18n$t("Le fichier téléchargé est-il une image de fond d'oeil ? "), i18n$t("Veuillez d'abord réinitialiser Prio Retino+, puis suivez ces instructions : 1. Sélectionnez votre langue, 2. Insérez l'identifiant du patient et 3. Chargez une image du fond d'oeil.")), "</font>"))
+            out_glauco_prio_retino_txt <- HTML(paste0("<font color='#0c7683'>", paste0(i18n$t("Le fichier téléchargé est-il une image de fond d'oeil ? "), i18n$t("Veuillez d'abord réinitialiser Prio Retino+, puis suivez ces instructions : 1. Sélectionnez votre langue, 2. Insérez l'identifiant du patient et 3. Chargez une image du fond d'oeil.")), "</font>"))
           }
         }
         list_out_prio_retino$out_dr_prio_retino_txt <- out_dr_prio_retino_txt

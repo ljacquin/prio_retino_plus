@@ -1,5 +1,5 @@
 {
-	"languages": ["English", "Français", "Português"],
+	"languages": ["Français", "English", "Português"],
 	"translation": [
 	  	{
 			"English": "Loading Prio Retino+...",
@@ -17,9 +17,9 @@
 			"Português": "olho direito"
 		},
 		{
-			"English": "Warning: low quality image detected, Prio Retino+ results might be unreliable. ",
-			"Français": "Attention: image de faible qualité détectée, les résultats de Prio Retino+ peuvent ne pas être fiables. ",
-			"Português": "Aviso: imagem de baixa qualidade detectada, os resultados Prio Retino+ podem não ser confiáveis. "
+			"English": "Warning : low quality image detected, Prio Retino+ results might be unreliable. ",
+			"Français": "Attention : image de faible qualité détectée, les résultats de Prio Retino+ peuvent ne pas être fiables. ",
+			"Português": "Aviso : imagem de baixa qualidade detectada, os resultados Prio Retino+ podem não ser confiáveis. "
 		},
 		{
 			"English": "Do not refresh the page, press 'Reset' to clean up before each new analysis",
@@ -52,7 +52,7 @@
 			"Português": "Imprimir ou salvar os resultados Prio Retino+ em PDF"
 		},
 		{
-			"English": "Remarks, definitions and recommendations :",
+			"English": "Notes, definitions and recommendations :",
 			"Français": "Remarques, définitions et recommandations :",
 			"Português": "Notas, definições e recomendações :"
 		},
@@ -62,29 +62,29 @@
 			"Português": "- Os resultados da Prio Retino+ são apenas para orientação, o diagnóstico deve ser feito por um oftalmologista"
 		},
 		{
-			"English": "- ICDR: International Clinical Diabetic Retinopathy severity scale; AAO : American Academy of Ophthalmology",
-			"Français": "- EIRD: Echelle Internationale de sévérité de la Rétinopathie Diabétique; AAO : Académie Américaine d'Ophtalmologie",
-			"Português": "- EIRD: Escala Internacional de Retinopatia diabética; AAO : Academia Americana de Oftalmologia"
+			"English": "- ICDR : International Clinical Diabetic Retinopathy severity scale; AAO : American Academy of Ophthalmology",
+			"Français": "- EIRD : Echelle Internationale de sévérité de la Rétinopathie Diabétique; AAO : Académie Américaine d'Ophtalmologie",
+			"Português": "- EIRD : Escala Internacional de Retinopatia diabética; AAO : Academia Americana de Oftalmologia"
 		},
 		{
-			"English": "- Non referable diabetic retinopathy (DR): mild or no visible signs of DR according to ICDR. AAO recommendations : repeat examination annually for non referable DR",
-			"Français": "- Rétinopathie diabétique (RD) non référable: léger ou aucun signe visible de la RD selon l'EIRD. Recommandations de l'AAO : répéter l'examen annuellement pour la RD non référable",
-			"Português": "- Retinopatia diabética (RD) não-referenciável: sinais leves ou não visíveis de RD de acordo com a EIRD. Recomendações da AAO : repetir anualmente para RD não-referenciável"
+			"English": "- Non referable diabetic retinopathy (DR) : mild or no visible signs of DR according to ICDR. AAO recommendations : repeat examination annually for non referable DR",
+			"Français": "- Rétinopathie diabétique (RD) non référable : léger ou aucun signe visible de la RD selon l'EIRD. Recommandations de l'AAO : répéter l'examen annuellement pour la RD non référable",
+			"Português": "- Retinopatia diabética (RD) não-referenciável : sinais leves ou não visíveis de RD de acordo com a EIRD. Recomendações da AAO : repetir anualmente para RD não-referenciável"
 		},
 		{
-			"English": "- Referable diabetic retinopathy (DR): moderate or superior signs of DR according to ICDR. AAO recommendations : repeat examination within 6 or 3 months for moderate or superior signs of DR respectively",
-			"Français": "- Rétinopathie diabétique (RD) référable: signes modérés ou supérieurs de la RD selon l'EIRD. Recommandations de l'AAO : répéter l'examen respectivement tous les 6 ou 3 mois pour des signes modérés ou supérieurs de RD",
+			"English": "- Referable diabetic retinopathy (DR) : moderate or superior signs of DR according to ICDR. AAO recommendations : repeat examination within 6 or 3 months for moderate or superior signs of DR respectively",
+			"Français": "- Rétinopathie diabétique (RD) référable : signes modérés ou supérieurs de la RD selon l'EIRD. Recommandations de l'AAO : répéter l'examen respectivement tous les 6 ou 3 mois pour des signes modérés ou supérieurs de RD",
 			"Português": "- Retinopatia diabética (RD) referenciável : sinais moderados ou maiores de RD, de acordo com a EIRD. Recomendações da AAO : repetir o examea cada 6 ou 3 meses, respectivamente, para sinais moderados ou maiores de RD "
 		},
 		{
-			"English": "- Referable glaucoma: true glaucoma, pre-perimetric glaucoma or high-risk suspect. AAO recommendations : repeat examination every 1 to 2 months until disease stabilization",
+			"English": "- Referable glaucoma : true glaucoma, pre-perimetric glaucoma or high-risk suspect. AAO recommendations : repeat examination every 1 to 2 months until disease stabilization",
 			"Français": "- Glaucome référable : vrai glaucome, glaucome pré-périmétrique ou haut risque suspecté. Recommandations de l'AAO : répéter l'examen tous les 1 à 2 mois jusqu'à stabilisation de la maladie",
-			"Português": "- Glaucoma referenciável: glaucoma verdadeiro, glaucoma pré-perimétrico ou suspeito de alto risco. Recomendações da AAO : Repetir o exame a cada 1-2 meses até a estabilização da doença"
+			"Português": "- Glaucoma referenciável : glaucoma verdadeiro, glaucoma pré-perimétrico ou suspeito de alto risco. Recomendações da AAO : Repetir o exame a cada 1-2 meses até a estabilização da doença"
 		},
 		{
-			"English": "- Non referable glaucoma: no visible sign or low-risk suspect for glaucoma. AAO recommendations : repeat examination annually",
-			"Français": "- Glaucome non référable: aucun signe visible ou faible risque suspecté de glaucome. Recommandations de l'AAO : répéter l'examen chaque année",
-			"Português": "- Glaucoma não referenciável: sem sinais visíveis ou suspeita de baixo risco de glaucoma. Recomendações da AAO : Repetir o exame todos os anos"
+			"English": "- Non referable glaucoma : no visible sign or low-risk suspect for glaucoma. AAO recommendations : repeat examination annually",
+			"Français": "- Glaucome non référable : aucun signe visible ou faible risque suspecté de glaucome. Recommandations de l'AAO : répéter l'examen chaque année",
+			"Português": "- Glaucoma não referenciável : sem sinais visíveis ou suspeita de baixo risco de glaucoma. Recomendações da AAO : Repetir o exame todos os anos"
 		},
 		{
 			"English": "- The analyzed data is deleted and not stored by Prio Retino+ after each reset",
@@ -112,9 +112,9 @@
 			"Português": "Resultados Prio Retino+ : Retinopatia diabética referenciável detectada com uma probabilidade de "
 		},
 		{
-			"English": "Warning: possible presence of maculopathy detected with a probability of ",
-			"Français": "Attention: présence possible de maculopathie détectée avec une probabilité de ",
-			"Português": "Aviso Importante: possível presença de maculopatia detectada com uma probabilidade de "
+			"English": "Warning : possible presence of maculopathy detected with a probability of ",
+			"Français": "Attention : présence possible de maculopathie détectée avec une probabilité de ",
+			"Português": "Aviso Importante : possível presença de maculopatia detectada com uma probabilidade de "
 		},
 		{
 			"English": "potential signs of moderate DR detected with a probability of ",
@@ -127,9 +127,9 @@
 			"Português": "sinais potenciais de RD grave ou superior detectados com uma probabilidade de "
 		},
 		{
-  			"English": " Disease severity:  ",
-  			"Français": " Stade de la maladie:  ",
-			"Português": " Estágio da doença:  "
+  			"English": " Disease severity :  ",
+  			"Français": " Stade de la maladie :  ",
+			"Português": " Estágio da doença :  "
     		},
 	  	{
 			"English": "Set Prio Retino+ language",
@@ -159,7 +159,7 @@
   		{
   	  		"English": "Display pre-diagnostic results for :",
     			"Français": "Afficher les résultats de pré-diagnostic pour :",
-    			"Português": "Veja os resultados do pré-diagnóstico para:"
+    			"Português": "Veja os resultados do pré-diagnóstico para :"
   		},
   		{
   	  		"English": "Diabetic retinopathy and/or maculopathy",
